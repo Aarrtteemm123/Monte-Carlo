@@ -3,15 +3,21 @@ from Info import Info
 
 info = Info
 counter = 0
+width_left = 280
+width_right = 280
+x_right = 300
+delta = 0
+
 
 def exit():
     root.destroy()
 
+
 def set_position_menu2():
     lbCounter.place(x=240, y=80)
     butExit.place(x=260, y=250)
-    left.place(x=20,y=130,width=280)
-    right.place(x=300,y=130,width=280)
+    left.place(x=20, y=130, width=280)
+    right.place(x=300, y=130, width=280)
     lbDoors.place(x=240, y=20)
     lbGift.place(x=240, y=40)
     lbRepetitions.place(x=240, y=60)
@@ -52,20 +58,33 @@ def simulation():
     delta = 0
     return delta
 
+
 def tick():
     c.after(400, tick)
-    delta = simulation()
+    simulation()
+    global width_left
+    global delta
+    width_left += delta
+    left.place(width=width_left)
+    global x_right
+    x_right += delta
+    global width_right
+    width_right -= delta
+    right.place(x=x_right, width=width_right)
     global counter
     lbCounter['text'] = "Counter:\t\t" + str(counter)
-    counter+=1
+    counter += 1
+
 
 def start():
     global info
     info = Info(inputDoors.get(), inputGift.get(), inputRepetitions.get())
     visible_menu1()
-    lbDoors['text']='Doors:\t\t'+str(info.doors)
-    lbGift['text']='Gift:\t\t'+str(info.gift)
-    lbRepetitions['text']='Repetitions:\t'+str(info.repetitions)
+    global delta
+    delta = 560 / getdouble(info.repetitions)
+    lbDoors['text'] = 'Doors:\t\t' + str(info.doors)
+    lbGift['text'] = 'Gift:\t\t' + str(info.gift)
+    lbRepetitions['text'] = 'Repetitions:\t' + str(info.repetitions)
     c.after_idle(tick)
 
 
@@ -78,10 +97,10 @@ lbGift = Label(text="Gifts")
 lbRepetitions = Label(text="Repetitions")
 
 lbCounter = Label(text="Counter")
-left = Label(font='sans 10',text = '50 %',bg = 'green',height=2)
-right = Label(font='sans 10',text = '50 %',bg  = 'red',height=2)
+left = Label(font='sans 10', text='50 %', bg='green', height=2)
+right = Label(font='sans 10', text='50 %', bg='red', height=2)
 
-c = Canvas(root, width=1, height=1,bg  = 'white')
+c = Canvas(root, width=1, height=1, bg='white')
 
 inputDoors = Entry()
 inputGift = Entry()
