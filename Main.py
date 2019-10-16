@@ -18,6 +18,7 @@ start_time = 0
 finish_time = 0
 number_winnings_change_choise = 0
 number_winnings_const_choise = 0
+index_door_host = 0
 counter_games = 0
 fl_run = True
 fl_start = False
@@ -26,7 +27,8 @@ listDoors = []
 
 
 def exit():
-    root.destroy()
+    #root.destroy()
+    visible_menu2()
 
 
 def set_position_menu2():
@@ -93,9 +95,13 @@ def clock():
 def simulation():
     initialize_game()
     my_choice = getint(random.randint(0, getint(info.doors) - 1))
-    my_new_choice = my_choice
+    global index_door_host
+    index_door_host = my_new_choice = my_choice
 
-    while my_choice == my_new_choice:
+    while index_door_host == my_choice or listDoors[index_door_host] == 1:
+        index_door_host = getint(random.randint(0, getint(info.doors) - 1))
+
+    while my_choice == my_new_choice or my_new_choice == index_door_host:
         my_new_choice = getint(random.randint(0, getint(info.doors) - 1))
 
     if listDoors[my_new_choice] == 1:
