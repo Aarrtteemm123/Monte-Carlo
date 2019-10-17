@@ -25,11 +25,31 @@ fl_start = False
 fl_key = True
 listDoors = []
 
+def reset():
+    global fl_run,fl_key,fl_start,counter_games,pause,timer,start_time,finish_time,number_winnings_change_choise,number_winnings_const_choise
+    fl_run = True
+    fl_start = False
+    fl_key = True
+    counter_games = 0
+    pause = 0
+    timer = 0
+    start_time = 0
+    finish_time = 0
+    number_winnings_change_choise = 0
+    number_winnings_const_choise = 0
 
-def exit():
-    #root.destroy()
-    visible_menu2()
-
+def back_to_menu():
+    global fl_run
+    fl_run = False
+    visible_menu1()
+    input_doors.delete(first=0,last=END)
+    input_gift.delete(first=0,last=END)
+    input_repetitions.delete(first=0,last=END)
+    input_time_simulation.delete(first=0,last=END)
+    input_doors.insert(index = 0,string=info.doors)
+    input_gift.insert(index = 0,string=info.gift)
+    input_repetitions.insert(index = 0,string=info.repetitions)
+    input_time_simulation.insert(index = 0,string=info.time_simulation)
 
 def set_position_menu2():
     lb_counter.place(x=240, y=70)
@@ -62,6 +82,9 @@ def visible_menu2():
         but_exit.place_forget()
         right.place_forget()
         left.place_forget()
+        right2.place_forget()
+        left2.place_forget()
+        set_position_menu1()
     else:
         set_position_menu2()
 
@@ -73,23 +96,15 @@ def visible_menu1():
         input_gift.place_forget()
         but_start.place_forget()
         input_time_simulation.place_forget()
+        visible_menu2()
     else:
         set_position_menu1()
-    visible_menu2()
 
 
 def clock():
-    lb_time_simulation.after(10, clock)
     global timer
-    timer = time.perf_counter()
-    global start_time
-    timer = getint(timer)
-    if not fl_start:
-        timer = 0
-        start_time = time.perf_counter()
-        start_time = getint(start_time)
-    if counter_games <= getint(info.repetitions):
-        lb_time_simulation['text'] = "Time (s):\t\t" + str(timer - start_time)
+    timer = time.monotonic()
+    lb_time_simulation['text'] = "Time (s):\t\t" + str(getint(timer-start_time))
 
 
 def simulation():
@@ -145,9 +160,6 @@ def simulation():
     if counter_games >= getint(info.repetitions):
         global fl_run
         fl_run = False
-        global finish_time
-        finish_time = timer - start_time
-        lb_time_simulation['text'] = "Time (s):\t\t" + str(finish_time)
 
 
 def tick():
@@ -158,6 +170,7 @@ def tick():
         pause = float(getint(info.time_simulation) / getint(info.repetitions))
         c.after(getint(pause * 1000), tick)
         simulation()
+        lb_time_simulation.after_idle(clock)
         lb_counter['text'] = "Counter:\t\t" + str(counter_games)
 
 
@@ -173,9 +186,11 @@ def initialize_game():
 
 
 def start():
+    reset()
     global info
     info = Info(input_doors.get(), input_gift.get(), input_repetitions.get(),
                 input_time_simulation.get())
+    info = Info(4,1,500,10)
     initialize_game()
     visible_menu1()
     global delta
@@ -183,6 +198,8 @@ def start():
     lb_doors['text'] = 'Doors:\t\t' + str(info.doors)
     lb_gift['text'] = 'Gift:\t\t' + str(info.gift)
     lb_repetitions['text'] = 'Repetitions:\t' + str(info.repetitions)
+    global start_time
+    start_time = time.monotonic()
     c.after_idle(tick)
 
 
@@ -210,7 +227,7 @@ input_repetitions = Entry()
 input_time_simulation = Entry()
 
 but_start = Button(root, height=1, width=10, text='Start', command=start)
-but_exit = Button(root, height=1, width=10, text='Exit', command=exit)
+but_exit = Button(root, height=1, width=10, text='Exit', command=back_to_menu)
 
 set_position_menu1()
 root.mainloop()
