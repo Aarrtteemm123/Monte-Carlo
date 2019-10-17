@@ -25,8 +25,9 @@ fl_start = False
 fl_key = True
 listDoors = []
 
+
 def reset():
-    global fl_run,fl_key,fl_start,counter_games,pause,timer,start_time,finish_time,number_winnings_change_choise,number_winnings_const_choise
+    global fl_run, fl_key, fl_start, counter_games, pause, timer, start_time, finish_time, number_winnings_change_choise, number_winnings_const_choise
     fl_run = True
     fl_start = False
     fl_key = True
@@ -38,18 +39,20 @@ def reset():
     number_winnings_change_choise = 0
     number_winnings_const_choise = 0
 
+
 def back_to_menu():
     global fl_run
     fl_run = False
     visible_menu1()
-    input_doors.delete(first=0,last=END)
-    input_gift.delete(first=0,last=END)
-    input_repetitions.delete(first=0,last=END)
-    input_time_simulation.delete(first=0,last=END)
-    input_doors.insert(index = 0,string=info.doors)
-    input_gift.insert(index = 0,string=info.gift)
-    input_repetitions.insert(index = 0,string=info.repetitions)
-    input_time_simulation.insert(index = 0,string=info.time_simulation)
+    input_doors.delete(first=0, last=END)
+    input_gift.delete(first=0, last=END)
+    input_repetitions.delete(first=0, last=END)
+    input_time_simulation.delete(first=0, last=END)
+    input_doors.insert(index=0, string=info.doors)
+    input_gift.insert(index=0, string=info.gift)
+    input_repetitions.insert(index=0, string=info.repetitions)
+    input_time_simulation.insert(index=0, string=info.time_simulation)
+
 
 def set_position_menu2():
     lb_counter.place(x=240, y=70)
@@ -104,7 +107,7 @@ def visible_menu1():
 def clock():
     global timer
     timer = time.monotonic()
-    lb_time_simulation['text'] = "Time (s):\t\t" + str(getint(timer-start_time))
+    lb_time_simulation['text'] = "Time (s):\t\t" + str(getint(timer - start_time))
 
 
 def simulation():
@@ -130,14 +133,13 @@ def simulation():
     global counter_games
     counter_games += 1
 
-
     global width_left_change_choise
     global delta
-    width_left_change_choise = number_winnings_change_choise/counter_games*560
+    width_left_change_choise = number_winnings_change_choise / counter_games * 560
     left.place(width=width_left_change_choise)
     global x_right_change_choise
-    delta = 560-width_left_change_choise
-    x_right_change_choise = 580-delta
+    delta = 560 - width_left_change_choise
+    x_right_change_choise = 580 - delta
     global width_right_change_choise
     width_right_change_choise = delta
     right.place(x=x_right_change_choise, width=width_right_change_choise)
@@ -152,8 +154,8 @@ def simulation():
     width_right_const_choise = delta
     right2.place(x=x_right_const_choise, width=width_right_const_choise)
 
-    left['text'] = str(math.ceil((width_left_change_choise/5.6)*100)/100)+" %"
-    right['text'] = str(math.ceil((100-width_left_change_choise/5.6)*100)/100)+" %"
+    left['text'] = str(math.ceil((width_left_change_choise / 5.6) * 100) / 100) + " %"
+    right['text'] = str(math.ceil((100 - width_left_change_choise / 5.6) * 100) / 100) + " %"
     left2['text'] = str(math.ceil((width_left_const_choise / 5.6) * 100) / 100) + " %"
     right2['text'] = str(math.ceil((100 - width_left_const_choise / 5.6) * 100) / 100) + " %"
 
@@ -190,7 +192,7 @@ def start():
     global info
     info = Info(input_doors.get(), input_gift.get(), input_repetitions.get(),
                 input_time_simulation.get())
-    info = Info(4,1,500,10)
+    info = Info(4, 1, 500, 10)
     initialize_game()
     visible_menu1()
     global delta
