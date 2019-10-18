@@ -56,7 +56,7 @@ def back_to_menu():
 
 def set_position_menu2():
     lb_counter.place(x=240, y=70)
-    but_exit.place(x=260, y=260)
+    but_exit.place(x=260, y=290)
     left.place(x=20, y=130, width=280)
     right.place(x=300, y=130, width=280)
     left2.place(x=20, y=170, width=280)
@@ -65,6 +65,15 @@ def set_position_menu2():
     lb_gift.place(x=240, y=30)
     lb_repetitions.place(x=240, y=50)
     lb_time_simulation.place(x=240, y=90)
+    lb_delta.place(x=260,y=205)
+
+    k=100
+    lb_info_green.place(x=20+k, y=240,width=20,height=20)
+    lb_info_green_text.place(x=45+k, y=240)
+    lb_info_red.place(x=180+k, y=240,width=20,height=20)
+    lb_info_red_text.place(x=205+k, y=240)
+    lb_info_gray.place(x=320+k, y=240,width=20,height=20)
+    lb_info_gray_text.place(x=345+k, y=240)
 
 
 def set_position_menu1():
@@ -87,6 +96,13 @@ def visible_menu2():
         left.place_forget()
         right2.place_forget()
         left2.place_forget()
+        lb_info_green.place_forget()
+        lb_info_green_text.place_forget()
+        lb_info_red.place_forget()
+        lb_info_red_text.place_forget()
+        lb_info_gray.place_forget()
+        lb_info_gray_text.place_forget()
+        lb_delta.place_forget()
         set_position_menu1()
     else:
         set_position_menu2()
@@ -158,7 +174,8 @@ def simulation():
     right['text'] = str(math.ceil((100 - width_left_change_choise / 5.6) * 100) / 100) + " %"
     left2['text'] = str(math.ceil((width_left_const_choise / 5.6) * 100) / 100) + " %"
     right2['text'] = str(math.ceil((100 - width_left_const_choise / 5.6) * 100) / 100) + " %"
-
+    difference = (math.ceil((width_left_change_choise / 5.6) * 100) / 100)-(math.ceil((width_left_const_choise / 5.6) * 100) / 100)
+    lb_delta['text'] ="Delta = "+str(math.ceil(difference*100)/100)+" %"
     if counter_games >= getint(info.repetitions):
         global fl_run
         fl_run = False
@@ -192,7 +209,7 @@ def start():
     global info
     info = Info(input_doors.get(), input_gift.get(), input_repetitions.get(),
                 input_time_simulation.get())
-    info = Info(4, 1, 500, 10)
+    info = Info(40, 30, 5000, 10)
     initialize_game()
     visible_menu1()
     global delta
@@ -206,13 +223,20 @@ def start():
 
 
 root = Tk()
-root.title("Monte Carlo")
+root.title("Monty Hall")
 root.geometry("600x350+450+100")
 
 lb_doors = Label(text="Doors")
 lb_gift = Label(text="Gifts")
 lb_repetitions = Label(text="Repetitions")
 lb_time_simulation = Label(text="Time (s)")
+lb_info_red = Label(text=" ",bg='red')
+lb_info_red_text = Label(text="- change choice",font='sans 10')
+lb_info_green = Label(text=" ",bg='green')
+lb_info_green_text = Label(text="- not change choice",font='sans 10')
+lb_info_gray = Label(text=" ",bg='grey')
+lb_info_gray_text = Label(text="- losing",font='sans 10')
+lb_delta = Label(font='sans 10')
 lb_time_simulation.after_idle(clock)
 
 lb_counter = Label(text="Counter")
@@ -229,7 +253,7 @@ input_repetitions = Entry()
 input_time_simulation = Entry()
 
 but_start = Button(root, height=1, width=10, text='Start', command=start)
-but_exit = Button(root, height=1, width=10, text='Exit', command=back_to_menu)
+but_exit = Button(root, height=1, width=10, text='Back', command=back_to_menu)
 
 set_position_menu1()
 root.mainloop()
