@@ -34,9 +34,9 @@ class Application(object):
         self.__lb_repetitions = Label(text="Repetitions")
         self.__lb_time_simulation = Label(text="Time (s)")
         self.__lb_info_red = Label(text=" ", bg='orangered')
-        self.__lb_info_red_text = Label(text="- change choice", font='sans 10')
+        self.__lb_info_red_text = Label(text="- not change choice", font='sans 10')
         self.__lb_info_green = Label(text=" ", bg='limegreen')
-        self.__lb_info_green_text = Label(text="- not change choice", font='sans 10')
+        self.__lb_info_green_text = Label(text="- change choice", font='sans 10')
         self.__lb_info_gray = Label(text=" ", bg='#8c8c8c')
         self.__lb_info_gray_text = Label(text="- losing", font='sans 10')
         self.__lb_delta = Label(font='sans 10')
@@ -98,8 +98,8 @@ class Application(object):
         k = 100
         self.__lb_info_green.place(x=20 + k, y=240, width=20, height=20)
         self.__lb_info_green_text.place(x=45 + k, y=240)
-        self.__lb_info_red.place(x=180 + k, y=240, width=20, height=20)
-        self.__lb_info_red_text.place(x=205 + k, y=240)
+        self.__lb_info_red.place(x=160 + k, y=240, width=20, height=20)
+        self.__lb_info_red_text.place(x=185 + k, y=240)
         self.__lb_info_gray.place(x=320 + k, y=240, width=20, height=20)
         self.__lb_info_gray_text.place(x=345 + k, y=240)
 
